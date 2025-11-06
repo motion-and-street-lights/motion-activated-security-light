@@ -32,9 +32,6 @@ In today's world, automation and security are of great importance. Motion detect
 
 ## Circuit Diagram
 
-![WhatsApp Image 2025-11-04 at 12 29 34_e882f9c2](https://github.com/user-attachments/assets/e88a91a9-d959-4723-bc03-e4eb4bcb7aa3)
-
-
 The circuit connections are straightforward:
 
 *PIR Sensor Connections:*
@@ -138,6 +135,49 @@ void loop() {
   - If LOW (no motion): LED turns OFF and prints "No motion"
 - *delay(500)*: 500ms delay between readings to prevent excessive serial output
 
+## Customization
+
+### Change PIR Sensor Pin
+
+```cpp
+int pirPin = 2;  // Use digital pin 2 instead of pin 3
+```
+
+### Change LED Pin
+
+```cpp
+int ledPin = 8;  // Use digital pin 8 instead of pin 13
+```
+
+### Adjust Detection Delay
+
+```cpp
+delay(1000);  // Update every 1 second instead of 500ms
+```
+
+### Add Buzzer for Audio Alert
+
+```cpp
+int buzzerPin = 7;
+pinMode(buzzerPin, OUTPUT);
+
+if (motion == HIGH) {
+  digitalWrite(ledPin, HIGH);
+  digitalWrite(buzzerPin, HIGH);  // Turn buzzer ON
+}
+```
+
+### Add Motion Counter
+
+```cpp
+int motionCount = 0;
+
+if (motion == HIGH) {
+  motionCount++;
+  Serial.print("Motion detected! Count: ");
+  Serial.println(motionCount);
+}
+```
 
 ## Applications
 
@@ -162,6 +202,37 @@ For practical deployment, consider:
 - Add multiple PIR sensors for wider coverage
 - Implement data logging to track motion events
 - Connect to home automation systems
+
+## Troubleshooting
+
+*LED doesn't turn on when motion is detected*
+- Check all wire connections, especially the PIR sensor output pin
+- Verify the PIR sensor is powered (VCC to 5V, GND to GND)
+- Allow 30-60 seconds for PIR sensor calibration
+- Test the LED separately to ensure it's working
+
+*LED stays on constantly*
+- PIR sensor may need calibration time after power-on
+- Adjust the sensitivity potentiometer on the PIR sensor (if available)
+- Check for environmental factors causing false triggers (heat sources, moving objects)
+- Verify the PIR sensor is not facing direct sunlight
+
+*No Serial Monitor output*
+- Verify baud rate is set to 9600
+- Check USB connection
+- Ensure the correct COM port is selected
+- Try uploading the code again
+
+*Inconsistent detection*
+- PIR sensor detection range is typically 3-7 meters
+- Ensure the sensor is positioned correctly
+- Avoid placing the sensor near heat sources or air vents
+- Check if the Fresnel lens on the PIR sensor is clean
+
+*LED flickers*
+- Add longer delay in the code (e.g., delay(1000))
+- Check for loose connections
+- Verify power supply is stable
 
 ## Contributing
 
